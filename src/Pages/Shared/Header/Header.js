@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import RightSideNav from "../RightSideNav/RightSideNav";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../../context/AuthProvider/AuthProvider";
+import { Image } from "react-bootstrap";
+import { FaUser } from "react-icons/fa";
 
 const Header = () => {
+  const { user } = useContext(AuthContext);
   return (
     <div>
       <Navbar
@@ -17,7 +21,9 @@ const Header = () => {
         variant="light"
       >
         <Container>
-          <Navbar.Brand><Link to='/'>Newspaper</Link></Navbar.Brand>
+          <Navbar.Brand>
+            <Link to="/">Newspaper</Link>
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
@@ -38,9 +44,17 @@ const Header = () => {
               </NavDropdown>
             </Nav>
             <Nav>
-              <Nav.Link href="#deets">More deets</Nav.Link>
+              <Nav.Link href="#deets">{user?.displayName}</Nav.Link>
               <Nav.Link eventKey={2} href="#memes">
-                Dank memes
+                {user?.photoURL ? (
+                  <Image
+                    style={{ height: "30px" }}
+                    roundedCircle
+                    src={user?.photoURL}
+                  ></Image>
+                ) : (
+                  <FaUser></FaUser>
+                )}
               </Nav.Link>
             </Nav>
             <div className="d-lg-none">
