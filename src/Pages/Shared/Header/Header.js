@@ -8,9 +8,16 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthProvider/AuthProvider";
 import { Image } from "react-bootstrap";
 import { FaUser } from "react-icons/fa";
+import Button from 'react-bootstrap/Button';
 
 const Header = () => {
-  const { user } = useContext(AuthContext);
+  const { user, logOut } = useContext(AuthContext);
+
+  const handleLogout = () => {
+    logOut()
+      .then(() => {})
+      .catch((error) => console.error("log out error", error));
+  };
   return (
     <div>
       <Navbar
@@ -44,7 +51,19 @@ const Header = () => {
               </NavDropdown>
             </Nav>
             <Nav>
-              <Nav.Link href="#deets">{user?.displayName}</Nav.Link>
+              <Nav.Link href="#deets">
+                {user?.uid ? (
+                  <>
+                    <span className="me-3">{user?.displayName}</span>
+                    <Button variant="secondary" onClick={handleLogout}>Log Out</Button>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/login">Login</Link>
+                    <Link to="/register">Register</Link>
+                  </>
+                )}
+              </Nav.Link>
               <Nav.Link eventKey={2} href="#memes">
                 {user?.photoURL ? (
                   <Image
