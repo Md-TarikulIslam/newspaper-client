@@ -7,6 +7,7 @@ import Login from "../Pages/Login/Login/Login";
 import Register from "../Pages/Login/Register/Register";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
 import TermsAndConditions from "../Pages/Others/TermsAndConditions/TermsAndConditions";
+import Profile from "../Pages/Others/Profile/Profile";
 
 export const routes = createBrowserRouter([
   {
@@ -16,13 +17,16 @@ export const routes = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>,
-        loader: () => fetch("https://newspaper-server-md-tarikulislam.vercel.app/news/"),
+        loader: () =>
+          fetch("https://newspaper-server-md-tarikulislam.vercel.app/news/"),
       },
       {
         path: "/category/:id",
         element: <Category></Category>,
         loader: ({ params }) =>
-          fetch(`https://newspaper-server-md-tarikulislam.vercel.app/category/${params.id}`),
+          fetch(
+            `https://newspaper-server-md-tarikulislam.vercel.app/category/${params.id}`
+          ),
       },
       {
         path: "/news/:id",
@@ -32,7 +36,9 @@ export const routes = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`https://newspaper-server-md-tarikulislam.vercel.app/news/${params.id}`),
+          fetch(
+            `https://newspaper-server-md-tarikulislam.vercel.app/news/${params.id}`
+          ),
       },
       {
         path: "/login",
@@ -45,6 +51,14 @@ export const routes = createBrowserRouter([
       {
         path: "/terms",
         element: <TermsAndConditions></TermsAndConditions>,
+      },
+      {
+        path: "/profile",
+        element: (
+          <PrivateRoute>
+            <Profile></Profile>
+          </PrivateRoute>
+        ),
       },
     ],
   },

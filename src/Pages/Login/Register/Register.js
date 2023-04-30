@@ -4,13 +4,15 @@ import Form from "react-bootstrap/Form";
 import { AuthContext } from "../../../context/AuthProvider/AuthProvider";
 import { Link } from "react-router-dom";
 import useTitle from "../../../hooks/useTitle";
+import { toast } from "react-hot-toast";
 
 const Register = () => {
   const [error, setError] = useState("");
   const [accepted, setAccepted] = useState(false);
-  const { createUser, updateUserProfile } = useContext(AuthContext);
+  const { createUser, updateUserProfile, verifyEmail } =
+    useContext(AuthContext);
 
-  useTitle('Register')
+  useTitle("Register");
   const handleRegSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -28,6 +30,8 @@ const Register = () => {
         setError("");
         form.reset();
         handleUpdateUserProfile(name, photoURL);
+        handleEmailVerification();
+        toast.success("Please verify your Email address.");
       })
       .catch((error) => {
         console.error("create user error", error);
@@ -43,6 +47,12 @@ const Register = () => {
     updateUserProfile(profile)
       .then(() => {})
       .catch((error) => console.error("user profile error", error));
+  };
+
+  const handleEmailVerification = () => {
+    verifyEmail()
+      .then(() => {})
+      .catch((error) => console.error("Email verify error", error));
   };
 
   const handleAccepted = (e) => {
